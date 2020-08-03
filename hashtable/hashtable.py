@@ -53,8 +53,12 @@ class HashTable:
 
 		Implement this, and/or DJB2.
 		"""
-
-		# Your code here
+		hash = 14695981039346656037
+		for c in key:
+			# fnv prime number
+			hash *= 1099511628211
+			hash ^= ord(c)
+		return hash & 0xffffffffffffffff
 
 
 	def djb2(self, key):
@@ -74,8 +78,8 @@ class HashTable:
 		Take an arbitrary key and return a valid integer index
 		between within the storage capacity of the hash table.
 		"""
-		#return self.fnv1(key) % self.capacity
-		return self.djb2(key) % self.capacity
+		return self.fnv1(key) % self.capacity
+		# return self.djb2(key) % self.capacity
 
 
 	def put(self, key, value):
