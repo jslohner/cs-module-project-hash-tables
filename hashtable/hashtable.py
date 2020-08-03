@@ -108,8 +108,11 @@ class HashTable:
 		Implement this.
 		"""
 		# get index and set hash_data at that index to [None]
-		index = self.hash_index(key)
-		self.hash_data[index] = None
+		if self.get(key):
+			index = self.hash_index(key)
+			self.hash_data[index] = None
+		else:
+			print('warning - key is not found')
 
 
 	def get(self, key):
