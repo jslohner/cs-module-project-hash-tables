@@ -53,10 +53,12 @@ class HashTable:
 
 		Implement this, and/or DJB2.
 		"""
+		# fnv offset basis
 		hash = 14695981039346656037
 		for c in key:
 			# fnv prime number
 			hash *= 1099511628211
+			# hash xor data
 			hash ^= ord(c)
 		return hash & 0xffffffffffffffff
 
@@ -90,6 +92,7 @@ class HashTable:
 
 		Implement this.
 		"""
+		# get index and set hash_data at that index to [value]
 		index = self.hash_index(key)
 		self.hash_data[index] = value
 		# hash_entry = HashTableEntry(key, value)
@@ -104,6 +107,7 @@ class HashTable:
 
 		Implement this.
 		"""
+		# get index and set hash_data at that index to [None]
 		index = self.hash_index(key)
 		self.hash_data[index] = None
 
@@ -116,6 +120,7 @@ class HashTable:
 
 		Implement this.
 		"""
+		# get index and return value of hash_data at that index
 		index = self.hash_index(key)
 		return self.hash_data[index]
 
