@@ -96,10 +96,10 @@ class HashTable:
 		Implement this.
 		"""
 		# get index and set hash_data at that index to [value]
-		index = self.hash_index(key)
-		# print(index)
+		# index = self.hash_index(key)
 		# self.hash_data[index] = value
 		# ---
+		index = self.hash_index(key)
 		hash_entry = HashTableEntry(key, value)
 		if self.hash_data[index]:
 			if self.hash_data[index].key == key:
@@ -116,7 +116,6 @@ class HashTable:
 				self.hash_data[index].next = hash_entry
 		else:
 			self.hash_data[index] = hash_entry
-			# print(self.hash_data[index].value)
 
 
 	def delete(self, key):
