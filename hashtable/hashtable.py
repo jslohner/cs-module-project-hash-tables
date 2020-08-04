@@ -9,6 +9,7 @@ class HashTableEntry:
 
 	def __repr__(self):
 		return f'{self.key} --- {self.value}'
+		# return f'{self.next}'
 
 
 # Hash table can't have fewer than this many slots
@@ -26,6 +27,7 @@ class HashTable:
 	def __init__(self, capacity):
 		self.capacity = capacity
 		self.hash_data = [None] * capacity
+		# self.hash_data = [HashTableEntry(None, None)] * capacity
 
 
 	def get_num_slots(self):
@@ -103,17 +105,11 @@ class HashTable:
 		hash_entry = HashTableEntry(key, value)
 		if self.hash_data[index]:
 			if self.hash_data[index].key == key:
+				self.hash_data[index] = None
 				self.hash_data[index] = hash_entry
-			elif self.hash_data[index].next:
-				x = self.hash_data[index]
-				while x:
-					if x.next:
-						x = x.next
-					else:
-						x.next = hash_entry
-						return
 			else:
-				self.hash_data[index].next = hash_entry
+				hash_entry.next = self.hash_data[index]
+				self.hash_data[index] = hash_entry
 		else:
 			self.hash_data[index] = hash_entry
 
@@ -127,15 +123,28 @@ class HashTable:
 		Implement this.
 		"""
 		# get index and set hash_data at that index to [None]
-		if self.get(key):
-			index = self.hash_index(key)
-			self.hash_data[index] = None
-		else:
-			print('warning - key is not found')
-		# ---
 		# if self.get(key):
 		# 	index = self.hash_index(key)
-		#
+		# 	self.hash_data[index] = None
+		# else:
+		# 	print('warning - key is not found')
+		# ---
+		if self.get(key):
+			index = self.hash_index(key)
+			current = self.hash_data[index]
+			if current.key == key:
+				self.hash_data[index] = current.next
+				return current
+			prev = current
+			current = current.next
+			while current:
+				if current.key == key:
+					prev.next = current.next
+					return current
+				prev = current
+				current = current.next
+		else:
+			print('warning - key is not found')
 
 
 	def get(self, key):
@@ -151,19 +160,12 @@ class HashTable:
 		# return self.hash_data[index]
 		# ---
 		index = self.hash_index(key)
-		if self.hash_data[index]:
-			if self.hash_data[index].key == key:
-				return self.hash_data[index].value
-			elif self.hash_data[index].next:
-				x = self.hash_data[index]
-				while x:
-					if x.next:
-						x = x.next
-					else:
-						return x.value
-			return self.hash_data[index].value
-		else:
-			return None
+		current = self.hash_data[index]
+		while current:
+			if current.key == key:
+				return current.value
+			current = current.next
+		return None
 
 
 	def resize(self, new_capacity):
@@ -211,3 +213,25 @@ if __name__ == "__main__":
 		print(ht.get(f"line_{i}"))
 
 	print("")
+
+# x = HashTable(5)
+# x.put('1', 'val 1')
+# x.put('2', 'val 2')
+# x.put('3', 'val 3')
+# x.put('4', 'val 4')
+# x.put('5', 'val 5')
+# x.put('6', 'val 6')
+# x.put('7', 'val 7')
+# print(x.get('6'))
+# print(x.get('5'))
+# print(x.get('3'))
+# print(x.get('69'))
+# print(x.delete('6'))
+# print(x.delete('7'))
+# # x.delete('6')
+# # x.delete('7')
+# # print(x.delete('3'))
+# for h in x.hash_data:
+# 	if h:
+# 		print(h)
+# 		# print(h.next)
