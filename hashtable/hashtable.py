@@ -162,6 +162,8 @@ class HashTable:
 					else:
 						return x.value
 			return self.hash_data[index].value
+		else:
+			return None
 
 
 	def resize(self, new_capacity):
