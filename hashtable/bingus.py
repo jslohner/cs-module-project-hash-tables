@@ -7,9 +7,6 @@ class HashTableEntry:
 		self.value = value
 		self.next = None
 
-	def __repr__(self):
-		return f'{self.key} --- {self.value}'
-
 
 # Hash table can't have fewer than this many slots
 MIN_CAPACITY = 8
@@ -102,16 +99,10 @@ class HashTable:
 		# ---
 		hash_entry = HashTableEntry(key, value)
 		if self.hash_data[index]:
-			if self.hash_data[index].key == key:
-				self.hash_data[index] = hash_entry
-			elif self.hash_data[index].next:
-				x = self.hash_data[index]
-				while x:
-					if x.next:
-						x = x.next
-					else:
-						x.next = hash_entry
-						return
+			# print(self.hash_data[index].next)
+			if self.hash_data[index].next:
+				hash_entry.next = self.hash_data[index].next
+				self.hash_data[index].next = hash_entry
 			else:
 				self.hash_data[index].next = hash_entry
 		else:
@@ -133,10 +124,6 @@ class HashTable:
 			self.hash_data[index] = None
 		else:
 			print('warning - key is not found')
-		# ---
-		# if self.get(key):
-		# 	index = self.hash_index(key)
-		#
 
 
 	def get(self, key):
@@ -152,16 +139,9 @@ class HashTable:
 		# return self.hash_data[index]
 		# ---
 		index = self.hash_index(key)
-		if self.hash_data[index]:
-			if self.hash_data[index].key == key:
-				return self.hash_data[index].value
-			elif self.hash_data[index].next:
-				x = self.hash_data[index]
-				while x:
-					if x.next:
-						x = x.next
-					else:
-						return x.value
+		if self.hash_data[index].next:
+			return self.hash_data[index].next.value
+		else:
 			return self.hash_data[index].value
 
 
@@ -174,39 +154,15 @@ class HashTable:
 		"""
 		# Your code here
 
-
-
-if __name__ == "__main__":
-	ht = HashTable(8)
-
-	ht.put("line_1", "'Twas brillig, and the slithy toves")
-	ht.put("line_2", "Did gyre and gimble in the wabe:")
-	ht.put("line_3", "All mimsy were the borogoves,")
-	ht.put("line_4", "And the mome raths outgrabe.")
-	ht.put("line_5", '"Beware the Jabberwock, my son!')
-	ht.put("line_6", "The jaws that bite, the claws that catch!")
-	ht.put("line_7", "Beware the Jubjub bird, and shun")
-	ht.put("line_8", 'The frumious Bandersnatch!"')
-	ht.put("line_9", "He took his vorpal sword in hand;")
-	ht.put("line_10", "Long time the manxome foe he sought--")
-	ht.put("line_11", "So rested he by the Tumtum tree")
-	ht.put("line_12", "And stood awhile in thought.")
-
-	print("")
-
-	# Test storing beyond capacity
-	for i in range(1, 13):
-		print(ht.get(f"line_{i}"))
-
-	# Test resizing
-	old_capacity = ht.get_num_slots()
-	ht.resize(ht.capacity * 2)
-	new_capacity = ht.get_num_slots()
-
-	print(f"\nResized from {old_capacity} to {new_capacity}.\n")
-
-	# Test if data intact after resizing
-	for i in range(1, 13):
-		print(ht.get(f"line_{i}"))
-
-	print("")
+ht = HashTable(8)
+ht.put("key-0", "val-0")
+ht.put("key-1", "val-1")
+ht.put("key-2", "val-2")
+ht.put("key-3", "val-3")
+ht.put("key-4", "val-4")
+ht.put("key-5", "val-5")
+ht.put("key-6", "val-6")
+ht.put("key-7", "val-7")
+ht.put("key-8", "val-8")
+ht.put("key-9", "val-9")
+print(ht.get("key-0"))
