@@ -101,8 +101,13 @@ class HashTable:
 		# index = self.hash_index(key)
 		# self.hash_data[index] = value
 		# ---
-		if self.get_load_factor() > 0.7:
-			self.resize(self.capacity * 2)
+		# if self.get_load_factor() < 0.2:
+		# 	self.resize(int(self.capacity // 2))
+			# if (self.capacity / 2) >= 8:
+			# 	# print(int(self.capacity / 2))
+			# 	self.resize(int(self.capacity / 2))
+			# else:
+			# 	self.resize(self.capacity - 3)
 		index = self.hash_index(key)
 		hash_entry = HashTableEntry(key, value)
 		if self.hash_data[index]:
@@ -118,6 +123,7 @@ class HashTable:
 			self.hash_data[index] = hash_entry
 		if self.get_load_factor() > 0.7:
 			self.resize(self.capacity * 2)
+
 
 	def delete(self, key):
 		"""
